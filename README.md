@@ -5,48 +5,48 @@ A voice-powered AI agent that lets aircraft maintenance technicians log inspecti
 Built for the aircraft MRO (Maintenance, Repair, Overhaul) domain with authentic aviation language: ATA chapter codes, tail numbers, part numbers, torque specs, airworthiness sign-offs, and CAT-A/B/C defect severity.
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                        AeroLog Architecture                     │
-│                                                                 │
-│  ┌──────────┐    ┌──────────────────────────────────────────┐  │
-│  │ Technician│───▶│  Voice Provider Layer                    │  │
-│  │ (Phone/   │    │  LocalSim │ Bolna │ Plivo │ Exotel      │  │
-│  │  Browser) │    │  ┌──────┐   ┌──────┐                    │  │
-│  └──────────┘    │  │ ASR  │   │ TTS  │                    │  │
-│                  │  │Deepgram  │Cartesia                    │  │
-│                  │  │Sarvam │   │Sarvam │                    │  │
-│                  │  └───┬──┘   └──┬───┘                    │  │
-│                  └──────┼────────┼────────────────────────┘  │
+┌───────────────────────────────────────────────────────────────┐
+│                        AeroLog Architecture                   │
+│                                                               │
+│  ┌──────────┐    ┌──────────────────────────────────────────┐ │
+│  │ Technician│───▶│  Voice Provider Layer                   │ │
+│  │ (Phone/   │   │  LocalSim │ Bolna │ Plivo │ Exotel       │ │
+│  │  Browser) │   │  ┌──────┐   ┌──────┐                     │ │
+│  └──────────┘    │  │ ASR  │   │ TTS  │                     │ │ 
+│                  │  │Deepgram  │Cartesia                    │ │
+│                  │  │Sarvam│   │Sarvam│                     │ │
+│                  │  └───┬──┘   └──┬───┘                     │ │
+│                  └──────┼────────┼──────────────────────────┘ │
 │                         │        │                            │
 │                         ▼        ▲                            │
-│  ┌──────────────────────────────────────────────────────┐    │
+│  ┌───────────────────────────────────────────────────────┐    │
 │  │              Agent Pipeline (State Machine)           │    │
 │  │  LISTENING → EXTRACTING → CLARIFYING → CONFIRMING     │    │
 │  │     ↕           ↕            ↕            ↓           │    │
 │  │  ANSWERING   HISTORY    ESCALATION    FINALIZED       │    │
 │  │   _QUERY    _READBACK    _CHECK                       │    │
 │  │                                                       │    │
-│  │  Tools: extract_fields │ ask_followup │ search_manual  │    │
-│  │         lookup_history │ escalate │ save_record        │    │
-│  └──────────┬──────────┬──────────┬────────────────────┘    │
-│             │          │          │                          │
-│     ┌───────▼──┐  ┌────▼───┐  ┌──▼──────┐                  │
-│     │ LLM Layer│  │  RAG   │  │   DB    │                  │
-│     │ Claude / │  │ Manual │  │ Records │                  │
-│     │ OpenAI / │  │ Search │  │ Aircraft│                  │
-│     │ RuleBased│  │ TF-IDF │  │ History │                  │
-│     └──────────┘  └────────┘  └─────────┘                  │
-│                                     │                        │
-│  ┌──────────────────────────────────┼────────────────────┐  │
-│  │          WebSocket / SSE         │                     │  │
-│  └──────────────────────────────────┼────────────────────┘  │
-│                                     │                        │
-│  ┌──────────┐              ┌────────▼─────────┐            │
-│  │Technician│              │   Supervisor      │            │
-│  │ Console  │              │   Dashboard       │            │
-│  │(Mobile)  │              │   (Desktop)       │            │
-│  └──────────┘              └──────────────────┘            │
-└─────────────────────────────────────────────────────────────────┘
+│  │  Tools: extract_fields │ ask_followup │ search_manual │    │
+│  │         lookup_history │ escalate │ save_record       │    │
+│  └──────────┬──────────┬──────────┬──────────────────────┘    │
+│             │          │          │                           │
+│     ┌───────▼──┐  ┌────▼───┐  ┌───▼─────┐                     │
+│     │ LLM Layer│  │  RAG   │  │   DB    │                     │
+│     │ Claude / │  │ Manual │  │ Records │                     │
+│     │ OpenAI / │  │ Search │  │ Aircraft│                     │
+│     │ RuleBased│  │ TF-IDF │  │ History │                     │
+│     └──────────┘  └────────┘  └─────────┘                     │
+│                                     │                         │
+│  ┌──────────────────────────────────┼────────────────────┐    │
+│  │          WebSocket / SSE         │                    │    │
+│  └──────────────────────────────────┼────────────────────┘    │
+│                                     │                         │
+│  ┌──────────┐              ┌────────▼──────────┐              │
+│  │Technician│              │   Supervisor      │              │
+│  │ Console  │              │   Dashboard       │              │
+│  │(Mobile)  │              │   (Desktop)       │              │
+│  └──────────┘              └───────────────────┘              │
+└───────────────────────────────────────────────────────────────┘
 ```
 
 ## Quick Start (LocalSim — no API keys needed)
