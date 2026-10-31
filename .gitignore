@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+.env
+aerolog.db
+node_modules/
+dist/
+.DS_Store
+*.log
+output.txt
